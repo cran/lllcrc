@@ -1,0 +1,22 @@
+\name{initialize.u.vec}
+\alias{initialize.u.vec}
+\title{Initialize log-linear parameters}
+\usage{
+initialize.u.vec(k)
+}
+\arguments{
+  \item{k}{The number of lists to be modeled}
+}
+\value{
+A vector of log-linear parameters, all initialized to zero,
+corresponding to the columns of the most general design
+matrix (but no Rasch terms).
+}
+\description{
+A tool for setting up the simulations of
+\code{\link{llm.sim}}.
+}
+\author{
+Zach Kurtz
+}
+

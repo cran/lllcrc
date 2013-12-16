@@ -50,7 +50,7 @@ AICc.vgam = function(mod){
 #' @export construct.vgam
 #' @import VGAM
 construct.vgam = function(sdf, constr.cols = NULL, constraints, dat){
-	#constr.cols = c(term.sets[[i]]); constraints = cons.mat
+	#constr.cols = c(models[[i]]); constraints = cons.mat
 	#sdf is a vector of smoothing spline dfs for the respective continuous predictors
 	cons.sub = constraints[,constr.cols]
 	if(ncol(cons.sub) == ncol(constraints)) cons.sub = diag(ncol(constraints)) # default, most complex model
@@ -92,13 +92,16 @@ construct.vgam = function(sdf, constr.cols = NULL, constraints, dat){
 #' user-friendly interface to the VGAM package.
 #' 
 #' @param dat The CRC data, as output of \code{format.data}
+#' @param models A list of models -- or an expression that returns a
+#' list of models -- to be considered in local model search.  Run the default,
+#' \code{\link{make.hierarchical.term.sets}(k = attributes(dat)$k)}, to see an example.
 #' @param sdf A vector, with length corresponding to the number of continuous
 #' predictor variables, that states the desired effective degrees of freedom
 #' for the corresponding smooth spline in VGAM.
 #' @param llform A character vector of predictors of the form "c1", "c2" for
 #' main effects, or "c12" for an interaction.  By default, the function
 #' \code{AICc.vgam} is used to select the best set of terms among the candidate
-#' sets that are proposed by the function \code{make.hierarchical.term.sets}.
+#' sets that are proposed by the function \code{\link{make.hierarchical.term.sets}}.
 #' @param round.vars See \code{\link{micro.post.stratify}}, which is called
 #' within \code{vgam.crc}.
 #' @param rounding.scale See \code{\link{micro.post.stratify}}, which is called
@@ -130,7 +133,9 @@ construct.vgam = function(sdf, constr.cols = NULL, constraints, dat){
 #' capture-recapture studies with covariates." \emph{Computational Statistics &
 #' Data Analysis}, \bold{47}, pp. 729-743.
 #' @export vgam.crc
-vgam.crc = function(dat, sdf, llform = NULL, round.vars = NULL, rounding.scale = NULL, boot.control = NULL){ 
+vgam.crc = function(dat, models = make.hierarchical.term.sets(k = attributes(dt)$k), 
+	sdf, llform = NULL, round.vars = NULL, rounding.scale = NULL, boot.control = NULL)
+{ 
 	#dat = dt; sdf = 4; rounding.scale = 5; llform = NULL; boot.control = list(n.reps= 5, seed = 4); llform = c("c1","c2","c3","c23")
 	# dat must be in the form of output of format.data()
 	con.cov = colnames(dat)[substr(colnames(dat),1,5) == "x.con"]
@@ -147,18 +152,17 @@ vgam.crc = function(dat, sdf, llform = NULL, round.vars = NULL, rounding.scale =
 	#   here is the matrix of so called "constraints" in VGAM:
 	cons.mat = 1-as.matrix(des[1:(2^k-2),])
 	if(is.null(llform)){
-	 	#Search for the log-linear model, amount term.sets
-		term.sets = make.hierarchical.term.sets(k = k, rasch = FALSE)
-		n.mod = length(term.sets)
+		if(is.null(models)) stop("you need to choose a non NULL value for either llform or models")
+		n.mod = length(models)
 		option.scores = rep(NA, n.mod)
 		for(i in 1:n.mod){
 			cat(paste("Computing the AICc for", i, "of", n.mod, "models \n"))
-			llform = term.sets[[i]] #loglinear terms
-			mod = construct.vgam(sdf = sdf, constr.cols = c(term.sets[[i]]),
+			llform = models[[i]] #loglinear terms
+			mod = construct.vgam(sdf = sdf, constr.cols = c(models[[i]]),
 				constraints = cons.mat, dat = cdt)
 			option.scores[i] = AICc.vgam(mod)
 		}
-		llform = term.sets[[which.min(option.scores)]] 
+		llform = models[[which.min(option.scores)]] 
 	}	
 	#Finally, build model:
 	mod = construct.vgam(sdf, constr.cols = llform, constraints = cons.mat, dat = cdt)
@@ -178,8 +182,7 @@ vgam.crc = function(dat, sdf, llform = NULL, round.vars = NULL, rounding.scale =
 		b.est = rep(NA, n.reps)
 		b.cpi0 = matrix(NA, ncol = n.reps, nrow = nrow(cdt))
 		boot.list = list(dat = cdt, dens=fits, sdf = sdf, cpi0 = cdt$cpi0, 
-			term.sets = make.hierarchical.term.sets(k = k, rasch = FALSE), 
-			cons.mat = cons.mat)
+			models = models, cons.mat = cons.mat)
 		for(i in 1:n.reps){
 			print(paste("vgam.crc is working on bootstrap iteration", i))
 			bb = vgam.crc.boots(boot.list)

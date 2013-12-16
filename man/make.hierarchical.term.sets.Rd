@@ -1,11 +1,12 @@
 \name{make.hierarchical.term.sets}
 \alias{make.hierarchical.term.sets}
-\title{Generate a universe of hierarchical model specifications.}
+\title{Generate a universe of hierarchical models.}
 \usage{
 make.hierarchical.term.sets(k = 3, rasch = FALSE)
 }
 \arguments{
-  \item{k}{The number of lists}
+  \item{k}{The number of lists; must be in the set
+  {2,3,4,5}.}
 
   \item{rasch}{If TRUE, include the Rasch model (simplest
   Rasch model in Darroch et. al. 1993).}
@@ -14,13 +15,9 @@ make.hierarchical.term.sets(k = 3, rasch = FALSE)
 A list of character vectors
 }
 \description{
-Creates a list of all hierarchical sets of log-linear
-modelling terms that include all main effects and exclude
-the highest order interaction. Currently implemented only
-for k=3 lists.
-}
-\details{
-Needs generalization to k>3 very much!
+Creates a list of all hierarchical log-linear models that
+include all main effects.  Optionally, may includes the
+Rasch model if there are exactly 3 lists.
 }
 \author{
 Zach Kurtz

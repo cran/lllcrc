@@ -2,12 +2,13 @@
 \alias{ic.all}
 \title{Compute an IC for several LLMs}
 \usage{
-ic.all(term.sets, ddat, ic, normalized = normalized)
+ic.all(models, ddat, ic, normalized = normalized)
 }
 \arguments{
-  \item{term.sets}{A list of character vectors, with each
+  \item{models}{A list of character vectors, with each
   vector containing column names from the associated
-  log-linear design matrix.}
+  log-linear design matrix. For example, see the output of
+  \code{\link{make.hierarchical.term.sets}()}.}
 
   \item{ddat}{The log-linear design matrix.}
 
@@ -20,10 +21,10 @@ ic.all(term.sets, ddat, ic, normalized = normalized)
 }
 \value{
 A matrix with as many rows as there are entries in
-\code{term.sets}. The columns contain the point estimates
-of the population size, the information criterion scores,
-and the information criterion weights for all the models,
-which sum to one
+\code{models}. The columns contain the point estimates of
+the population size, the information criterion scores, and
+the information criterion weights for all the models, which
+sum to one
 }
 \description{
 Given several sets of log-linear terms, compute the IC

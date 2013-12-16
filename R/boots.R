@@ -81,7 +81,7 @@ lllcrc.boots = function(boot.list){ #b.list = bdat.list; imputation.method = "mo
 	bsdat = smooth.patterns(dat = as.matrix(bdat), kfrac = boot.list$kfrac, bw = boot.list$bw)
 	## Local log-linear models
 	print("lllcrc.boots:  fitting local models")
-	bloc = apply.ic.fit(ydens = bsdat$hpi, ess = bsdat$ess[,1], mct = bsdat$dat[,"mct"], 
+	bloc = apply.ic.fit(ydens = bsdat$hpi, models = boot.list$models, ess = bsdat$ess[,1], mct = bsdat$dat[,"mct"], 
 		ic = boot.list$ic, averaging = boot.list$averaging, cell.adj = boot.list$cell.adj, loud = FALSE)
 	bloc$bdat = bsdat
 	return(bloc)}
@@ -124,16 +124,16 @@ vgam.crc.boots = function(boot.list){ #b.list = bdat.list; imputation.method = "
 	nzd = bdat[nonzeros,]
 	## Fitting vgam:
 	print("vgam.crc.boots:  fitting vgam crc model")
-	term.sets = boot.list$term.sets
-	n.mod = length(term.sets)
+	models = boot.list$models
+	n.mod = length(models)
 	option.scores = rep(NA, n.mod)
 	for(i in 1:n.mod){
-		llterms = term.sets[[i]] #loglinear terms
-		mod = construct.vgam(sdf = boot.list$sdf, constr.cols = c(term.sets[[i]]),
+		llterms = models[[i]] #loglinear terms
+		mod = construct.vgam(sdf = boot.list$sdf, constr.cols = c(models[[i]]),
 			constraints = boot.list$cons.mat, dat = nzd)
 		option.scores[i] = AICc.vgam(mod)
 		}
-	llterms = term.sets[[which.min(option.scores)]]
+	llterms = models[[which.min(option.scores)]]
 
 	#Finally, build model:
 	mod = construct.vgam(sdf = boot.list$sdf, constr.cols = llterms, constraints = boot.list$cons.mat, dat = nzd)

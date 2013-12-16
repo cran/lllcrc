@@ -10,16 +10,17 @@
 #' number of missing population units, the method estimates the "rate of
 #' missingness" as it varies over the covariate space.  In addition,
 #' user-friendly functions are provided to recreate (approximately) the method
-#' of Zwane and Van der Heijden (2004), which applied the \code{VGAM} package
+#' of Zwane and van der Heijden (2004), which applied the \code{VGAM} package
 #' in a way that is closely related to LLLMs.
 #' 
 #' \tabular{ll}{ Package: \tab lllcrc\cr Type: \tab Package\cr Version: \tab
-#' 1.0\cr Date: \tab 2013-12-16\cr License: GPL-2
+#' 1.1\cr Date: \tab 2013-12-16\cr License: GPL-2
 #' <http://cran.r-project.org/web/licenses/GPL-2> \cr }
 #' 
 #' @name lllcrc-package
 #' @docType package
-#' @author Zach Kurtz Maintainer: Zach <zkurtz@@gmail.com>
+#' @author Zach Kurtz 
+#' Maintainer: Zach \email{zkurtz@@gmail.com}
 #' @references 
 #' Kurtz ZT (2013). "Smooth Post-Stratification for Multiple
 #' Capture-Recapture." \emph{arXiv preprint arXiv:1302.0890}.
@@ -53,7 +54,7 @@
 #' bw.key[2:7,1] = sqrt(2)
 #' bw.key = as.matrix(bw.key)
 #' # LLL Step 2: Obtain point estimates and bootstrap the variance for LLLMs:
-#' # For better results, increase the number n.reps of bootstrap replications
+#' #	 (For more-thorough results, increase the number n.reps of bootstrap replications)
 #' lmod = lllcrc(dat = dt, kfrac = 0.2, bw = bw.key, ic = "AICc", round.vars = c("x.con.1"), 
 #' 	rounding.scale = 20, boot.control = list(n.reps = 10, seed = 13))
 #' summary(lmod)

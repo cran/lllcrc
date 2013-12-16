@@ -4,10 +4,13 @@
 #' the covariate space), select the best log-linear model for the marginal
 #' contingency table of capture pattern counts.
 #' 
-#' 
-#' @param pop A data.frame containing CRC data in standard form.
+#' @param pop A data.frame containing CRC data as output of \code{\link{formatdata}}.
+#' @param models A list of models -- or an expression that returns a
+#' list of models -- to be considered in local model search.  The default is \code{NULL},
+#' and in this case \code{\link{make.hierarchical.term.sets}(k = attributes(dat)$k)}
+#' is called to generate all hierarchical models that include all main effects.
 #' @param rasch Logical: Should the Rasch model (most basic version, Darroch
-#' et. al. 1993) be considered, in addition to standard models?
+#' et. al. 1993) be considered, in addition to standard models?  \code{FALSE} by default.
 #' @param ic Character string specifying the information criterion to use for
 #' model selection.  Currently AIC, AICc, BIC, and BICpi are implemented.
 #' @param adjust Logical: Should we adjust the cells as in Evans and Bonett
@@ -22,19 +25,19 @@
 #' Populations and Incomplete $2^k$ Contingency Tables." \emph{Biometrika},
 #' \bold{59}(3), pp. 591.
 #' @export flat.IC
-flat.IC = function(pop, rasch = FALSE, ic = "AICc", 
-	adjust = FALSE, averaging = FALSE){
+flat.IC = function(pop, models = make.hierarchical.term.sets(k = attributes(dt)$k), 
+	rasch = FALSE, ic = "AICc", adjust = FALSE, averaging = FALSE){
 	densi = pop.to.counts(pop$y)
 	k = nchar(pop$y[1]) 
 	if(adjust) densi = densi + 0.5^(k-1)
-	out = ic.fit(densi, N = 1, ic = ic, normalized = FALSE, rasch = rasch, averaging=averaging)
+	out = ic.fit(densi, models, N = 1, ic = ic, normalized = FALSE, rasch = rasch, averaging=averaging)
 	return(out)
 }
 
 #' Fit an LLM
 #' 
 #' Fit a log-linear model.  This is a wrapper function for our own variant of
-#' the \code{glm} function, \code{zglm}.
+#' the \code{glm} function, \code{\link{pirls}}.
 #' 
 #' Maximum likelihood estimation is used, conditioning on the observed
 #' population as if it were the full population.
@@ -65,28 +68,31 @@ flat.log.linear = function(pop, model.terms, rasch = FALSE){ #model.terms = c("c
 #' The key implementation of the thesis of Kurtz 2013, Carnegie Mellon
 #' University
 #' 
-#' @param dat Capture-recapture data, as output of \code{format.data}
+#' @param dat Capture-recapture data, as output of \code{\link{formatdata}}
 #' @param kfrac The approximate fraction of the data that is included in the
 #' support of the kernel for the local averages.
+#' @param models A list of models -- or an expression that returns a
+#' list of models -- to be considered in local model search.  The default is \code{NULL},
+#' and in this case \code{\link{make.hierarchical.term.sets}(k = attributes(dat)$k)}
+#' is called to generate all hierarchical models that include all main effects.
 #' @param ic The information criterion for selection of local log-linear
-#' models.  The default, BICpi, is introduced in and mentioned in Hook and
-#' Regal 1997.
-#' @param bw A matrix a single column, with rownames that match the covariate
+#' models.  The default, BICpi, appears in Hook and Regal (1997).
+#' @param bw A single-column matrix with rownames that match the covariate
 #' names in \code{dat}.  The values in the column are scalars that are used in
 #' constructing distances between covariate vectors.  Raw differences are
 #' divided by the corresponding scalars before being squared in the context of
-#' a Euclidean metric.
+#' a Euclidean metric.  Defaults to a column of 1's.
 #' @param averaging Logical: Should model averaging be done for each local
 #' model?
-#' @param round.vars See \code{micro.post.stratify}, which is called within
+#' @param cell.adj Logical: Whether to adjust the cells as in Evans and Bonett
+#' (1994).  TRUE by default.
+#' @param round.vars See \code{\link{micro.post.stratify}}, which is called within
 #' \code{lllcrc}.
-#' @param rounding.scale See \code{micro.post.stratify}, which is called within
+#' @param rounding.scale See \code{\link{micro.post.stratify}}, which is called within
 #' \code{lllcrc}.
 #' @param boot.control A list of control parameters for bootstrapping the
 #' sampling distribution of the estimator(s).  By default, there is no
 #' bootstrapping.
-#' @param cell.adj Logical: Should we adjust the cells as in Evans and Bonett
-#' (1995)?
 #' @return \item{est}{A point estimate of the population size}
 #' \item{llform}{The set of log-linear terms} \item{dat}{The output of function
 #' \code{micro.post.stratify}, with estimated local rates of missingness
@@ -112,10 +118,13 @@ flat.log.linear = function(pop, model.terms, rasch = FALSE){ #model.terms = c("c
 #' Fienberg SE (1972). "The Multiple Recapture Census for Closed
 #' Populations and Incomplete $2^k$ Contingency Tables." \emph{Biometrika},
 #' \bold{59}(3), pp. 591.
+#' @references
+#' Evans MA and Bonett DG (1994). "Bias Reduction for Multiple-Recapture
+#' Estimators of Closed Population Size." \emph{Biometrics}, \bold{50}(2), pp.
+#' 388-395.
 #' @export lllcrc
-lllcrc = function(dat, kfrac, ic = "BICpi", bw = NULL, 
-	averaging = FALSE, round.vars = NULL, rounding.scale = 0.01, boot.control = NULL,
-	cell.adj = TRUE){
+lllcrc = function(dat, kfrac, models = NULL, ic = "BICpi", bw = NULL, 
+	averaging = FALSE, cell.adj = TRUE, round.vars = NULL, rounding.scale = 0.01, boot.control = NULL){
 	# dat = dt; kfrac = 0.2; bw = NULL; round.vars = c("x.con.2", "x.con.3"); rounding.scale = c(1,1); ic = "AICc"; averaging = FALSE; cell.adj = TRUE
 	#boot.control = list(n.reps = 5)
 	# Consider rounding the continuous covariates to reduce the covariate space
@@ -126,7 +135,8 @@ lllcrc = function(dat, kfrac, ic = "BICpi", bw = NULL,
 	sdat = smooth.patterns(dat = data.matrix(cdt), kfrac = kfrac, bw = bw)
 	## Local log-linear models:
 	print("lllcrc is fitting local log-linear models ...")
-	loc = apply.ic.fit(ydens = sdat$hpi, ess = sdat$ess[,1], mct = cdt[,"mct"], ic = ic, averaging = averaging,
+	if(is.null(models)) models = make.hierarchical.term.sets(k = attributes(dt)$k)
+	loc = apply.ic.fit(ydens = sdat$hpi, models, ess = sdat$ess[,1], mct = cdt[,"mct"], ic = ic, averaging = averaging,
 		cell.adj = cell.adj)
 	## Bootstrap some variability
 	if(!is.null(boot.control)){
@@ -135,7 +145,7 @@ lllcrc = function(dat, kfrac, ic = "BICpi", bw = NULL,
 		n.reps = boot.control$n.reps
 		b.est = rep(NA, n.reps)
 		b.cpi0 = matrix(NA, ncol = n.reps, nrow = nrow(cdt))
-		boot.list = list(dat = cdt, dens=sdat$hpi, cpi0 = loc$cpi0, kfrac = kfrac, ic = ic, 
+		boot.list = list(dat = cdt, models = models, dens=sdat$hpi, cpi0 = loc$cpi0, kfrac = kfrac, ic = ic, 
 			bw = bw, averaging = averaging, cell.adj = cell.adj)
 		for(i in 1:n.reps){
 			print(paste("lllcrc is working on bootstrap iteration", i))

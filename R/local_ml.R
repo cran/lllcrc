@@ -55,9 +55,6 @@ odd.evens = function(Y){
   return(eo)}
 
 
-## A stripped-down high-speed version of Poisson regression with likelihood maximization by BFGS
-
-
 #' Maximum likelihood for log-linear coefficients
 #' 
 #' A simplified version of \code{glm} that does only parameter estimation
@@ -72,6 +69,7 @@ odd.evens = function(Y){
 #' sum of predicted values is exactly 1
 #' @param precision Controls the precision of the coefficient estimates.  A
 #' higher number is less precise.  1 corresponds to machine epsilon.
+#' @details Maximize the Poisson likelihood using BFGS in \code{optim()}.
 #' @return The vector of estimated log-linear coefficients.  The first
 #' coefficient is the intercept, and the remaining ones correspond to the
 #' \code{predictors} argument, in that order

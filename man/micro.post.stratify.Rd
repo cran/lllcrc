@@ -21,7 +21,9 @@ micro.post.stratify(dat, round.vars = NULL, rounding.scale = NULL)
 }
 \value{
 Another matrix, just like the input \code{dat} except that
-there are fewer rows there is the new column \code{mct}
+there are fewer rows, data values are rounded, and there is
+a new column \code{mct}, which gives the number of data
+points corresponding to each row.
 }
 \description{
 Rounding continuous covariates creates "micro-post-strata"

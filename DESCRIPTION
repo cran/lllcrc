@@ -1,7 +1,7 @@
 Package: lllcrc
 Type: Package
 Title: Local Log-linear Models for Capture-Recapture
-Version: 1.0
+Version: 1.1
 Date: 2013-12-16
 Author: Zach Kurtz
 Maintainer: Zach Kurtz <zkurtz@gmail.com>
@@ -17,7 +17,7 @@ Description: Applies local log-linear capture-recapture models (LLLMs) a for
     way that is closely related to LLLMs.
 License: GPL-2
 Imports: data.table, combinat, VGAM, plyr
-Packaged: 2014-01-07 22:56:44 UTC; zach
+Packaged: 2014-03-12 01:08:28 UTC; zach
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-01-08 00:50:46
+Date/Publication: 2014-03-12 07:21:07

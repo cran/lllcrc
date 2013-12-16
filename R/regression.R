@@ -7,7 +7,7 @@
 #' See Kurtz 2013, Chapter on multiple sclerosis
 #' 
 #' @param dat The capture-recapture data in the form that is returned by
-#' \code{format.data}
+#' \code{\link{formatdata}} or \code{\link{micro.post.stratify}}.
 #' @param kfrac The approximate fraction of the data that is included in the
 #' support of the kernel for the local averages.
 #' @param bw A matrix a single column, with rownames that match the covariate
@@ -27,14 +27,19 @@ smooth.patterns = function(dat, kfrac, bw)
 	J = .I = NULL #The ONLY purpose of this line is to avoid a note about no variable bindings for J and .I in R CMD check
 		      #For the inspiration, see http://stackoverflow.com/a/8096882/2232265
 	#require(data.table)
-	if(!is.matrix(dat)) stop("dat needs to be a matrix")
-	if(!is.matrix(bw)) warning("attempting to coerce bw to a matrix")
-	bw = as.matrix(bw)
+	#if(!is.matrix(dat)) stop("dat needs to be a matrix") # replaced below:
+	if(!is.matrix(dat)) dat = data.matrix(dat)
 	nd = nrow(dat)
+	if(!is.element("mct", colnames(dat))) dat[,"mct"] = rep(1,nd)
 	nc = sum(dat[,"mct"])
 	x.covs = colnames(dat)[substr(colnames(dat), 1,1) == "x"]
 	n.covs = length(x.covs)
-	if(is.null(bw)) bw = matrix(1, nrow = n.covs, ncol = 1)
+	if(is.null(bw)) {
+		bw = matrix(1, nrow = n.covs, ncol = 1)
+	}else if(!is.matrix(bw)){
+		bw = as.matrix(bw)
+	}
+	if(length(bw) != n.covs) stop("The length of the vector bw needs to equal the number of covariates x.[dis/con]...")
 	y.bits = colnames(dat)[substr(colnames(dat), 1,1) == "y"]
 	ny = length(y.bits)
 	# Initialize hat_Pi, the smoothed capture-pattern frequencies,

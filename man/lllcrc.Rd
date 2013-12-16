@@ -2,44 +2,53 @@
 \alias{lllcrc}
 \title{Local log-linear models (LLLMs) for capture-recapture (CRC)}
 \usage{
-lllcrc(dat, kfrac, ic = "BICpi", bw = NULL, averaging = FALSE,
-  round.vars = NULL, rounding.scale = 0.01, boot.control = NULL,
-  cell.adj = TRUE)
+lllcrc(dat, kfrac, models = NULL, ic = "BICpi", bw = NULL,
+  averaging = FALSE, cell.adj = TRUE, round.vars = NULL,
+  rounding.scale = 0.01, boot.control = NULL)
 }
 \arguments{
   \item{dat}{Capture-recapture data, as output of
-  \code{format.data}}
+  \code{\link{formatdata}}}
 
   \item{kfrac}{The approximate fraction of the data that is
   included in the support of the kernel for the local
   averages.}
 
-  \item{ic}{The information criterion for selection of
-  local log-linear models.  The default, BICpi, is
-  introduced in and mentioned in Hook and Regal 1997.}
+  \item{models}{A list of models -- or an expression that
+  returns a list of models -- to be considered in local
+  model search.  The default is \code{NULL}, and in this
+  case \code{\link{make.hierarchical.term.sets}(k =
+  attributes(dat)$k)} is called to generate all
+  hierarchical models that include all main effects.}
 
-  \item{bw}{A matrix a single column, with rownames that
-  match the covariate names in \code{dat}.  The values in
-  the column are scalars that are used in constructing
+  \item{ic}{The information criterion for selection of
+  local log-linear models.  The default, BICpi, appears in
+  Hook and Regal (1997).}
+
+  \item{bw}{A single-column matrix with rownames that match
+  the covariate names in \code{dat}.  The values in the
+  column are scalars that are used in constructing
   distances between covariate vectors.  Raw differences are
   divided by the corresponding scalars before being squared
-  in the context of a Euclidean metric.}
+  in the context of a Euclidean metric.  Defaults to a
+  column of 1's.}
 
   \item{averaging}{Logical: Should model averaging be done
   for each local model?}
 
-  \item{round.vars}{See \code{micro.post.stratify}, which
-  is called within \code{lllcrc}.}
+  \item{cell.adj}{Logical: Whether to adjust the cells as
+  in Evans and Bonett (1994).  TRUE by default.}
 
-  \item{rounding.scale}{See \code{micro.post.stratify},
+  \item{round.vars}{See \code{\link{micro.post.stratify}},
   which is called within \code{lllcrc}.}
+
+  \item{rounding.scale}{See
+  \code{\link{micro.post.stratify}}, which is called within
+  \code{lllcrc}.}
 
   \item{boot.control}{A list of control parameters for
   bootstrapping the sampling distribution of the
   estimator(s).  By default, there is no bootstrapping.}
-
-  \item{cell.adj}{Logical: Should we adjust the cells as in
-  Evans and Bonett (1995)?}
 }
 \value{
 \item{est}{A point estimate of the population size}
@@ -84,5 +93,9 @@ pp. S14-S21.
 Fienberg SE (1972). "The Multiple Recapture Census for
 Closed Populations and Incomplete $2^k$ Contingency
 Tables." \emph{Biometrika}, \bold{59}(3), pp. 591.
+
+Evans MA and Bonett DG (1994). "Bias Reduction for
+Multiple-Recapture Estimators of Closed Population Size."
+\emph{Biometrics}, \bold{50}(2), pp. 388-395.
 }
 

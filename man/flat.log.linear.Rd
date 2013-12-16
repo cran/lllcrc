@@ -20,7 +20,8 @@ the \code{model.terms} argument
 }
 \description{
 Fit a log-linear model.  This is a wrapper function for our
-own variant of the \code{glm} function, \code{zglm}.
+own variant of the \code{glm} function,
+\code{\link{pirls}}.
 }
 \details{
 Maximum likelihood estimation is used, conditioning on the

@@ -2,12 +2,17 @@
 \alias{apply.ic.fit}
 \title{Select an LLLM at each point}
 \usage{
-apply.ic.fit(ydens, ess, mct, ic, cell.adj, averaging, loud = TRUE)
+apply.ic.fit(ydens, models, ess, mct, ic, cell.adj, averaging, loud = TRUE)
 }
 \arguments{
   \item{ydens}{A matrix with 2^k-1 columns, one for each
   capture pattern. Each row sums to 1; these are empirical
   capture pattern probabilities.}
+
+  \item{models}{A list of character vectors, with each
+  vector containing column names from the associated
+  log-linear design matrix. For example, see the output of
+  \code{\link{make.hierarchical.term.sets}()}.}
 
   \item{ess}{A vector of effective sample sizes, one for
   each row of ydens.}

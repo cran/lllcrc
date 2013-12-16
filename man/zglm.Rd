@@ -29,6 +29,10 @@ correspond to the \code{predictors} argument, in that order
 A simplified version of \code{glm} that does only parameter
 estimation
 }
+\details{
+Maximize the Poisson likelihood using BFGS in
+\code{optim()}.
+}
 \author{
 Zach Kurtz
 }

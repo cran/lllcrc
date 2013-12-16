@@ -1,0 +1,97 @@
+\name{llm.sim}
+\alias{llm.sim}
+\title{Simulate basic log-linear CRC experiments}
+\usage{
+llm.sim(n.grid = c(100, 300, 900, 2700), n.reps = 100, u.vec, p0 = NULL,
+  models = NULL, ic = "BICpi", cell.adj = TRUE, averaging = FALSE,
+  fixed.sample.size = FALSE)
+}
+\arguments{
+  \item{n.grid}{A vector of positive integers, by default
+  \code{c(100,300,900,2700)}.  Each integer is the number
+  of population units that are observed in a corresponding
+  collection of simulations.}
+
+  \item{n.reps}{The number of replicates for each integer
+  in \code{n.grid}, i.e., for each population size of
+  interest.}
+
+  \item{u.vec}{A vector of log-linear parameters, excluding
+  the intercept term.  The length of the vector and the
+  order of its terms must correspond to the column names of
+  the design matrix produced by
+  \code{make.design.matrix(k)}, where \code{k} is the
+  number of lists.}
+
+  \item{p0}{Optional: a number in \code{(0,1)}, the
+  fraction of the population that is to be undetected.  See
+  details.}
+
+  \item{models}{See \code{\link{lllcrc}}}
+
+  \item{ic}{See \code{\link{lllcrc}}}
+
+  \item{cell.adj}{See \code{\link{lllcrc}}}
+
+  \item{averaging}{\code{\link{lllcrc}}}
+
+  \item{fixed.sample.size}{Logical: If \code{TRUE}, the
+  simulations fix the number of units that are detected,
+  defining the true population size such that the number of
+  units detected is equal to its expectation.  If
+  \code{FALSE}, the observed population size is variable,
+  such that the integers in \code{n.grid} indicate only the
+  expectations of the corresponding simulation sizes.}
+}
+\value{
+A list of class \code{llsim}, for "log-linear simulations".
+The list contains the set of multinomial capture pattern
+probabilities \code{p}, the matrix \code{res} of simulation
+results, and many of the arguments to the \code{llm.sim}.
+}
+\description{
+Replicate and summarize the generation and log-linear
+analysis of data sets that are consistent with arbitrary
+log-linear models
+}
+\details{
+\code{u.vec}, together with the constraint that the
+multinomial probabilities sum to 1, uniquely determines the
+unspecified intercept term.  Specifying \code{p0}
+overdetermines the intercept term.  We rectify this
+overspecification by adjusting all main effects by the same
+additive adjustment \code{a}, where the unique value of
+\code{a} is approximated with numerical methods.
+
+Once the log-linear terms are fully specified, we perform
+multinomial draws to simulate a CRC experiment.  We include
+the zero cell in the multinomial draw only if
+\code{fixed.sample.size = TRUE}.
+
+On each replicate, the data log-linear model search
+according to the parameters \code{models}, \code{ic},
+\code{cell.adj}, and \code{averaging} produces an estimate
+of the missing cell. The main matrix \code{res} of
+simulation results stores the ratios of the estimated
+missing cell over the 'true' missing cell.
+}
+\examples{
+\dontrun{
+## A basic simulation with four lists.
+#	Begin by specifying the vector of log-linear parameters.
+#	The parameters must match the design matrix:
+names(make.design.matrix(k=4))
+u.vec = initialize.u.vec(k=4)
+u.vec[5:10] = 2
+## Run the simulation with an adjustment to the main effects in
+#	u.vec such that the probability of nondetection is 0.5.
+sim = llm.sim(n.grid = c(100,300,900,2700), n.reps = 10, u.vec,
+	p0 = 0.5, ic = "BIC", cell.adj = FALSE)
+# View the results
+plot(sim)
+}
+}
+\author{
+Zach Kurtz
+}
+

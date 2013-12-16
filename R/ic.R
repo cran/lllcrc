@@ -55,29 +55,30 @@ get.IC = function(predictors, ddat, ic, beta){ #mod = mod.pmml
 #' model.
 #' 
 #' 
-#' @param term.sets A list of character vectors, with each vector containing
+#' @param models A list of character vectors, with each vector containing
 #' column names from the associated log-linear design matrix.
+#' For example, see the output of \code{\link{make.hierarchical.term.sets}()}.
 #' @param ddat The log-linear design matrix.
 #' @param ic The information criterion, such as AIC, AICc, BIC, or BICpi.
 #' @param normalized Logical: TRUE means that beta0 will be adjusted so that
 #' the log-linear model corresponds to cell probabilities instead of expected
 #' cell counts.
-#' @return A matrix with as many rows as there are entries in \code{term.sets}.
+#' @return A matrix with as many rows as there are entries in \code{models}.
 #' The columns contain the point estimates of the population size, the
 #' information criterion scores, and the information criterion weights for all
 #' the models, which sum to one
 #' @author Zach Kurtz
 #' @export ic.all
-ic.all = function(term.sets, ddat, ic, normalized = normalized){ #mod = mod0; 
+ic.all = function(models, ddat, ic, normalized = normalized){ #mod = mod0; 
 	# Use IC to select a local log-linear model from one of the entries in term.sets
-	n.mod = length(term.sets)
+	n.mod = length(models)
 	results = matrix(NA, nrow = n.mod, ncol = 3)
 	colnames(results) = c("est", "score", "wghts")
 	mdat = as.matrix(ddat)
 	for(i in 1:n.mod){ 
-		predictors = term.sets[[i]]
+		predictors = models[[i]]
 		beta = pirls(predictors, mdat, normalized = normalized)
-		results[i,"score"] = get.IC(term.sets[[i]], ddat, ic, beta)
+		results[i,"score"] = get.IC(models[[i]], ddat, ic, beta)
 		results[i,"est"] = exp(beta[1])
 	}
 	results[,"wghts"] = ic.wghts(results[,"score"])
@@ -96,6 +97,9 @@ ic.all = function(term.sets, ddat, ic, normalized = normalized){ #mod = mod0;
 #' @param densi A matrix with one row and 2^k-1 column containing cell counts
 #' or empirical cell probabilities corresponding to all the possible capture
 #' patterns.
+#' @param models A list of character vectors, with each vector containing
+#' column names from the associated log-linear design matrix.
+#' For example, see the output of \code{\link{make.hierarchical.term.sets}()}.
 #' @param N If you multiply \code{densi} by \code{N} and then sum over the
 #' resulting vector, you should get the effective sample size.
 #' @param ic The information criterion, such as AIC, AICc, BIC, or BICpi.
@@ -109,17 +113,15 @@ ic.all = function(term.sets, ddat, ic, normalized = normalized){ #mod = mod0;
 #' \item{form}{Formula of the selected model}
 #' @author Zach Kurtz
 #' @export ic.fit
-ic.fit = function(densi, N, ic, averaging = averaging, normalized = TRUE, rasch = FALSE){ 
+ic.fit = function(densi, models, N, ic, averaging = averaging, normalized = TRUE, rasch = FALSE){ 
 	#i = 2; N = mdf[i]; densi = ydens[i,]; order.max = 2; stepwise = FALSE
 	# Use an IC to select a local log-linear model. 
 	ddat = string.to.array(densi, rasch = rasch) #ddat stands for "design data"
 	ddat$c = ddat$c*N # If the data is 
-	# Create the set of all feasible models to be compared
-	term.sets = make.hierarchical.term.sets(k = nchar(colnames(densi)[1]), rasch = rasch)
 	# Perform model selection using the ic, optionally stepwise
-	icd = ic.all(term.sets, ddat = ddat, ic, normalized = normalized)
+	icd = ic.all(models, ddat = ddat, ic, normalized = normalized)
 	winner = which.min(icd[,"score"])
-	best.terms = term.sets[[winner]]
+	best.terms = models[[winner]]
  	pred = ifelse(averaging, sum(icd[,"est"]*icd[,"wghts"]), icd[winner,"est"])
 	# Return the winning formula and an estimate
 	out = list(pred = pred, form = paste(best.terms, collapse = "+"))
@@ -139,6 +141,9 @@ ic.fit = function(densi, N, ic, averaging = averaging, normalized = TRUE, rasch 
 #' 
 #' @param ydens A matrix with 2^k-1 columns, one for each capture pattern.
 #' Each row sums to 1; these are empirical capture pattern probabilities.
+#' @param models A list of character vectors, with each vector containing
+#' column names from the associated log-linear design matrix.
+#' For example, see the output of \code{\link{make.hierarchical.term.sets}()}.
 #' @param ess A vector of effective sample sizes, one for each row of ydens.
 #' @param mct The number of population units that were observed for each row of
 #' ydens.
@@ -154,21 +159,17 @@ ic.fit = function(densi, N, ic, averaging = averaging, normalized = TRUE, rasch 
 #' @author Zach Kurtz
 #' @references Kurtz (2013)
 #' @export apply.ic.fit
-apply.ic.fit = function(ydens, ess, mct, ic, cell.adj, averaging, loud = TRUE){ 
+apply.ic.fit = function(ydens, models, ess, mct, ic, cell.adj, averaging, loud = TRUE){ 
  #ydens=sdat$hpi; ess=sdat$ess[,1]; mct = cdt[,"mct"]; ic = "AICc"; cell.adj = TRUE; averaging = FALSE; loud = TRUE
 	if(cell.adj){
-		#ynames = colnames(ydens)
-		#eo = odd.evens(ynames)
-		#ind = if(nchar(ynames[1])%%2){eo$even}else{eo$odd} #if k is odd, return indices of even capture patterns (denominator)
-		#ydens[,ind] = ydens[,ind] + 1/ess
 		k=nchar(colnames(ydens)[1])
 		ydens = ydens + (1/2^(k-1))/ess
 		ydens = ydens/rowSums(ydens)
 	}
 	ith.row = function(i) {
 		if(loud) print(i)
-		densi = ydens[i,,drop = FALSE] #, nrow = 1, dimnames = list(c(), cpatterns))    # colnames(densi) = patterns
-		out = ic.fit(densi, N = ess[i], ic, averaging = averaging)
+		densi = ydens[i,,drop = FALSE] 
+		out = ic.fit(densi, models, N = ess[i], ic, averaging = averaging)
 		return(out)
 	}
 	out = t(sapply(1:nrow(ydens), ith.row))

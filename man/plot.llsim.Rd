@@ -1,0 +1,26 @@
+\name{plot.llsim}
+\alias{plot.llsim}
+\title{Plot the output of \code{\link{llm.sim}}}
+\usage{
+\method{plot}{llsim}(x, y.top = 2, probs = c(0.25, 0.75), main = NULL,
+  ...)
+}
+\arguments{
+  \item{x}{An object of class \code{llsim}}
+
+  \item{y.top}{The upper bound of the plotting window}
+
+  \item{probs}{The interval width, in terms of quantiles}
+
+  \item{main}{Plot title}
+
+  \item{...}{Additional parameters to be passed into
+  \code{plot}}
+}
+\description{
+Plot the output of \code{\link{llm.sim}}
+}
+\author{
+Zach Kurtz
+}
+

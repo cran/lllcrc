@@ -2,11 +2,18 @@
 \alias{vgam.crc}
 \title{Build a VGAM CRC model}
 \usage{
-vgam.crc(dat, sdf, llform = NULL, round.vars = NULL,
-  rounding.scale = NULL, boot.control = NULL)
+vgam.crc(dat, models = make.hierarchical.term.sets(k = attributes(dt)$k), sdf,
+  llform = NULL, round.vars = NULL, rounding.scale = NULL,
+  boot.control = NULL)
 }
 \arguments{
   \item{dat}{The CRC data, as output of \code{format.data}}
+
+  \item{models}{A list of models -- or an expression that
+  returns a list of models -- to be considered in local
+  model search.  Run the default,
+  \code{\link{make.hierarchical.term.sets}(k =
+  attributes(dat)$k)}, to see an example.}
 
   \item{sdf}{A vector, with length corresponding to the
   number of continuous predictor variables, that states the
@@ -18,7 +25,7 @@ vgam.crc(dat, sdf, llform = NULL, round.vars = NULL,
   interaction.  By default, the function \code{AICc.vgam}
   is used to select the best set of terms among the
   candidate sets that are proposed by the function
-  \code{make.hierarchical.term.sets}.}
+  \code{\link{make.hierarchical.term.sets}}.}
 
   \item{round.vars}{See \code{\link{micro.post.stratify}},
   which is called within \code{vgam.crc}.}

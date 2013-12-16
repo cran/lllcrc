@@ -83,11 +83,15 @@ plot.lllcrc = function(x, cont.var = "x.con.1",
 	mct = x$dat$mct
 	if(!is.null(x$boots)){
 		stk[, c("l", "u")] = t(apply(x$boots$loc.est, 1, quantile, probs = c(0.025, 0.975), na.rm = TRUE))/mct
-		top = 1+max(stk$u)
+		top = min(1+max(stk$u), 1+2*max(stk$pi0))
 	}
 	if(!is.null(selection)) {
-		keepers = which(rowSums(x$dat[,selection, drop = FALSE]) == length(selection))
-		stk = stk[keepers,]
+		if(is.numeric(selection)) {
+			stk = stk[selection,]
+		}else{
+			keepers = which(rowSums(x$dat[,selection, drop = FALSE]) == length(selection))
+			stk = stk[keepers,]
+		}
 	}
 	stk = stk[order(stk$x),]
 	nx = nrow(stk)

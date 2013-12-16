@@ -23,6 +23,8 @@ A data frame that is an expanded version of the argument
 "x.dis...." for continuous and discrete variables,
 respectively.  Each discrete/categorical variable with L
 levels is expanded into L separate binary variables.
+Several attributes are included to describe the data
+format.
 }
 \description{
 Put a CRC dataset into a standard form that is understood

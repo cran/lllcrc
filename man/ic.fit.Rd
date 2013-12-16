@@ -2,13 +2,18 @@
 \alias{ic.fit}
 \title{Select and fit an LLM}
 \usage{
-ic.fit(densi, N, ic, averaging = averaging, normalized = TRUE,
+ic.fit(densi, models, N, ic, averaging = averaging, normalized = TRUE,
   rasch = FALSE)
 }
 \arguments{
   \item{densi}{A matrix with one row and 2^k-1 column
   containing cell counts or empirical cell probabilities
   corresponding to all the possible capture patterns.}
+
+  \item{models}{A list of character vectors, with each
+  vector containing column names from the associated
+  log-linear design matrix. For example, see the output of
+  \code{\link{make.hierarchical.term.sets}()}.}
 
   \item{N}{If you multiply \code{densi} by \code{N} and
   then sum over the resulting vector, you should get the

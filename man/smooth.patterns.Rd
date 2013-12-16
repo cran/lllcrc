@@ -6,7 +6,8 @@ smooth.patterns(dat, kfrac, bw)
 }
 \arguments{
   \item{dat}{The capture-recapture data in the form that is
-  returned by \code{format.data}}
+  returned by \code{\link{formatdata}} or
+  \code{\link{micro.post.stratify}}.}
 
   \item{kfrac}{The approximate fraction of the data that is
   included in the support of the kernel for the local

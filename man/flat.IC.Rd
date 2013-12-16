@@ -2,16 +2,23 @@
 \alias{flat.IC}
 \title{Select an LLM}
 \usage{
-flat.IC(pop, rasch = FALSE, ic = "AICc", adjust = FALSE,
-  averaging = FALSE)
+flat.IC(pop, models = make.hierarchical.term.sets(k = attributes(dt)$k),
+  rasch = FALSE, ic = "AICc", adjust = FALSE, averaging = FALSE)
 }
 \arguments{
-  \item{pop}{A data.frame containing CRC data in standard
-  form.}
+  \item{pop}{A data.frame containing CRC data as output of
+  \code{\link{formatdata}}.}
+
+  \item{models}{A list of models -- or an expression that
+  returns a list of models -- to be considered in local
+  model search.  The default is \code{NULL}, and in this
+  case \code{\link{make.hierarchical.term.sets}(k =
+  attributes(dat)$k)} is called to generate all
+  hierarchical models that include all main effects.}
 
   \item{rasch}{Logical: Should the Rasch model (most basic
   version, Darroch et. al. 1993) be considered, in addition
-  to standard models?}
+  to standard models?  \code{FALSE} by default.}
 
   \item{ic}{Character string specifying the information
   criterion to use for model selection.  Currently AIC,
