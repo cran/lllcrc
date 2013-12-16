@@ -1,0 +1,33 @@
+\name{ic.wghts}
+\alias{ic.wghts}
+\title{Information criterion model weights}
+\usage{
+ic.wghts(scores)
+}
+\arguments{
+  \item{scores}{The information criterion scores.}
+}
+\value{
+A vector of weights, which can be interpreted (loosely) as
+the relative desireability of the models corresponding to
+the weights
+}
+\description{
+Compute model weights according to the information
+criterion scores of each model.
+}
+\details{
+The formula is quite simple: Identify the smallest (best)
+score among the various models.  Subtract this minimum
+value from all of the scores, and call the resulting set of
+scores $s$.  Compute exp(-0.5 s) for all the scores, and
+normalize the resulting vector to obtain the vector of
+model weights
+}
+\author{
+Zach Kurtz
+}
+\references{
+Burnham and Anderson (2002)
+}
+

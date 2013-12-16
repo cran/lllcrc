@@ -1,0 +1,79 @@
+\name{plot.lllcrc}
+\alias{plot.lllcrc}
+\alias{plot.vgam.crc}
+\title{Plot LLLMs}
+\usage{
+\method{plot}{lllcrc}(x, cont.var = "x.con.1", selection = NULL,
+  main = "Set the main argument for the title", xlab = "x",
+  label.offset = 0.01, text.size = 0.7, x.range = NULL, subtitle = NULL,
+  padj.adj = -0.3, lr = 1, lr.global = NULL, ylim = NULL, ...)
+
+\method{plot}{vgam.crc}(x, cont.var = "x.con.1", selection = NULL,
+  main = "Set the main argument for the title", xlab = "x",
+  label.offset = 0.01, text.size = 0.7, x.range = NULL, subtitle = NULL,
+  padj.adj = -0.3, lr = 1, lr.global = NULL, ylim = NULL, ...)
+}
+\arguments{
+  \item{x}{Output of the function for LLLMs, \code{lllcrc},
+  or the CRC wrapper function for VGAM, \code{vgam.crc}}
+
+  \item{cont.var}{The name (in the form \code{x.dis ...} --
+  see \code{format.data}) of a continuous variable that
+  will be used for the x-axis of the plot.  By default, it
+  is \code{x.con.1}, the first continuous variable}
+
+  \item{selection}{See the same argument in
+  \code{extract.CI}}
+
+  \item{main}{Plot title}
+
+  \item{xlab}{x-axis label}
+
+  \item{label.offset}{Controls the distance between the
+  capture-pattern labels and corresponding curves}
+
+  \item{text.size}{Controls text size of capture pattern
+  labels}
+
+  \item{x.range}{The range of the primary continuous
+  variable that is included in the plot}
+
+  \item{subtitle}{An optional subtitle}
+
+  \item{padj.adj}{Controls the vertical positioning of the
+  subtitle if it is defined}
+
+  \item{lr}{Has value 1 or -1; controls the left-right (or
+  right-left) alternating pattern of the capture pattern
+  labels}
+
+  \item{lr.global}{NULL by default; if specified, it must
+  be -1 or 1, causing all capture pattern labels to appear
+  on the left or the right, without alternating}
+
+  \item{ylim}{Optional argument of the form c(a,b), where a
+  and b are numbers.}
+
+  \item{...}{Additional parameters to be passed into
+  \code{plot}}
+}
+\value{
+Returns nothing, but makes a plot if you're paying
+attention
+}
+\description{
+Generates stacked relative frequency diagrams for local
+log-linear or VGAM capture recapture models
+}
+\details{
+The capture pattern relative frequencies are plotted in a
+stacked form, summing to 1 over each vertical
+cross-section.  On top, the rate of missingness is plotted
+for the all-zero capture pattern, along with 95 percent
+confidence curves if a \code{boots} entry is included in
+\code{x}, the first argument
+}
+\author{
+Zach Kurtz
+}
+

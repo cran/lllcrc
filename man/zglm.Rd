@@ -1,0 +1,35 @@
+\name{zglm}
+\alias{zglm}
+\title{Maximum likelihood for log-linear coefficients}
+\usage{
+zglm(predictors, data, normalized = TRUE, precision = 1000)
+}
+\arguments{
+  \item{predictors}{The columns of the standard design
+  matrix to include in the model.  For example, "c1", "c2"
+  for main effects, and "c12" for interactions.}
+
+  \item{data}{A design matrix with cell counts included}
+
+  \item{normalized}{Logical: If TRUE, include a
+  normalization step after coefficient estimation, which
+  resets the value of the intercept so that the sum of
+  predicted values is exactly 1}
+
+  \item{precision}{Controls the precision of the
+  coefficient estimates.  A higher number is less precise.
+  1 corresponds to machine epsilon.}
+}
+\value{
+The vector of estimated log-linear coefficients.  The first
+coefficient is the intercept, and the remaining ones
+correspond to the \code{predictors} argument, in that order
+}
+\description{
+A simplified version of \code{glm} that does only parameter
+estimation
+}
+\author{
+Zach Kurtz
+}
+

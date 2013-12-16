@@ -1,0 +1,45 @@
+\name{micro.post.stratify}
+\alias{micro.post.stratify}
+\title{Collapse CRC data through micro post-stratification}
+\usage{
+micro.post.stratify(dat, round.vars = NULL, rounding.scale = NULL)
+}
+\arguments{
+  \item{dat}{The data in a matrix form}
+
+  \item{round.vars}{A vector of names of variables to be
+  rounded for the purpose of collapsing the data.}
+
+  \item{rounding.scale}{A vector of scalars that determines
+  how much each corresponding variable in \code{round.vars}
+  is to be rounded.  For example, the first variable
+  \code{round.vars[1]} will be divided by
+  \code{rounding.scale[1]}, then rounded to the nearest
+  whole number, and then multiplied by
+  \code{rounding.scale[1]}.  The net effect is to round to
+  the nearest multiple of \code{rounding.scale[1]}.}
+}
+\value{
+Another matrix, just like the input \code{dat} except that
+there are fewer rows there is the new column \code{mct}
+}
+\description{
+Rounding continuous covariates creates "micro-post-strata"
+and therefore tends to reduce the number of distinct
+covariate vectors.  After rounding, the data is collapsed
+so that there is exactly one row for each distinct
+covariate vector, and a column called \code{mct} (for
+multinomial cell count) is appended with that contains the
+number of records corresponding to each row.
+}
+\details{
+Continuous variables will be divided by
+\code{rounding.scale}, then rounded to the nearest whole
+number, and then multiplied by \code{rounding.scale}. The
+net effect is to round to the nearest multiple of
+\code{rounding.scale}
+}
+\author{
+Zach Kurtz
+}
+

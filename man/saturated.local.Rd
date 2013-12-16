@@ -1,0 +1,28 @@
+\name{saturated.local}
+\alias{saturated.local}
+\title{Use odd-even formula to fit saturated LLM}
+\usage{
+saturated.local(dens)
+}
+\arguments{
+  \item{dens}{Matrix with column names corresponding to the
+  possible capture patterns}
+}
+\description{
+See the odd-even formula in Fienberg 1972, or a localized
+version of it in Zwane 2004.
+}
+\details{
+The function is vectorized -- it gets applied to each row
+of the input matrix, resulting in a vector of estimated
+rates of missingness or the total number missing
+}
+\author{
+Zach Kurtz
+}
+\references{
+Fienberg SE (1972). "The Multiple Recapture Census for
+Closed Populations and Incomplete $2^k$ Contingency
+Tables." \emph{Biometrika}, \bold{59}(3), pp. 591.
+}
+

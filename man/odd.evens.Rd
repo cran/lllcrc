@@ -1,0 +1,19 @@
+\name{odd.evens}
+\alias{odd.evens}
+\title{Determine the even-ness of capture patterns}
+\usage{
+odd.evens(Y)
+}
+\arguments{
+  \item{Y}{A vector of capture patterns, such as the output
+  of the function \code{patterns.possible}}
+}
+\description{
+Return a list containing the indices of capture patterns
+with an even number of captures and the indices that of
+capture patterns with an odd number of captures
+}
+\author{
+Zach Kurtz
+}
+

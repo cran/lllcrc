@@ -1,0 +1,25 @@
+\name{make.design.matrix}
+\alias{make.design.matrix}
+\title{Construct standard LLM design matrix.}
+\usage{
+make.design.matrix(k = 3, order.max = k - 1, rasch = FALSE)
+}
+\arguments{
+  \item{k}{The number of lists}
+
+  \item{order.max}{The maximum number of lists to include
+  in interaction terms}
+
+  \item{rasch}{Logical: if TRUE, include a column for the
+  square of the number of captures}
+}
+\value{
+A design matrix as a data frame
+}
+\description{
+Makes a design matrix for a (local) log-linear model
+}
+\author{
+Zach Kurtz
+}
+

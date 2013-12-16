@@ -1,0 +1,22 @@
+\name{make.patterns.template}
+\alias{make.patterns.template}
+\title{Template for capture-pattern counts}
+\usage{
+make.patterns.template(k = 3)
+}
+\arguments{
+  \item{k}{The number of lists}
+}
+\description{
+Make a matrix with one row and as many columns as there are
+observeable capture patterns, with column names
+corresponding to the possible capture patterns.
+}
+\details{
+By default, the matrix gets populated with uniform value
+summing to 1 across all the entries.
+}
+\author{
+Zach Kurtz
+}
+

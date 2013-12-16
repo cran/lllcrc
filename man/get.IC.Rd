@@ -1,0 +1,46 @@
+\name{get.IC}
+\alias{get.IC}
+\title{Compute an information criterion}
+\usage{
+get.IC(predictors, ddat, ic, beta)
+}
+\arguments{
+  \item{predictors}{A character vector of predictors of the
+  form "c1", "c2" for main effects, or "c12" for an
+  interaction. The predictors to be used in a log-linear
+  model.  For example, "c1", "c2" for main effects, or
+  "c12" for an interaction.}
+
+  \item{ddat}{A data frame that is the design matrix for a
+  log-linear model.}
+
+  \item{ic}{The information criterion to be computed.
+  Currently the AIC, AICc, BIC, BICpi are implemented.}
+
+  \item{beta}{The vector of log-linear coefficients that
+  were previously estimated.}
+}
+\value{
+The value of the information criterion
+}
+\description{
+Given the fitted parameter values for a log-linear model,
+compute an information criterion.
+}
+\details{
+Computes the conditional multinomial likelihood and uses it
+to compute the specified information criterion
+}
+\author{
+Zach Kurtz
+}
+\references{
+Thesis of Zach Kurtz (2014), Carnegie Mellon University,
+Statistics
+
+Anderson DR and Burnham KP (1999). "Understanding
+information criteria for selection among capture-recapture
+or ring recovery models." \emph{Bird Study}, \bold{46}(S1),
+pp. S14-S21.
+}
+

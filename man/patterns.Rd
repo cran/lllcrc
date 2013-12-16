@@ -1,0 +1,23 @@
+\name{patterns}
+\alias{patterns}
+\title{Collapse capture events into capture patterns (strings)}
+\usage{
+patterns(pop, k)
+}
+\arguments{
+  \item{pop}{Capture-recapture data, at an intermediate
+  form in the inner workings of \code{poptop}}
+
+  \item{k}{The number of lists}
+}
+\description{
+For any capture-recapture data matrix with columns such as
+\code{c1}, \code{c2} ... as binary indicators of capture or
+noncapture, running \code{patterns} on the data appends a
+new column \code{y} that binds \code{c1}, \code{c2}, ...
+together as a column of capture patterns.
+}
+\author{
+Zach Kurtz
+}
+

@@ -1,0 +1,38 @@
+\name{captures}
+\alias{captures}
+\title{Simulating captures}
+\usage{
+captures(n, pop, k, heters, covs)
+}
+\arguments{
+  \item{n}{The population size.}
+
+  \item{pop}{The data.frame with a basic template for the
+  population.}
+
+  \item{k}{The number of lists.}
+
+  \item{heters}{A character string to denote a specific
+  heterogeneity structure.  Currently only french.1 is
+  implemented.}
+
+  \item{covs}{A character string to denote the covariates
+  to be included. Currently only NULL and age.sex.zip are
+  implemented.}
+}
+\value{
+A data.frame with capture-recapture data
+}
+\description{
+Simulating captures as part of a CRC experiment.
+}
+\details{
+Given (possibly) some covariates specified by \code{covs}
+and a heterogeneity function specified by \code{heters},
+conduct a capture-recapture experiment, and return the
+capture-recapture data.
+}
+\author{
+Zach Kurtz
+}
+

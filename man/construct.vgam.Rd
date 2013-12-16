@@ -1,0 +1,38 @@
+\name{construct.vgam}
+\alias{construct.vgam}
+\title{Make a VGAM model}
+\usage{
+construct.vgam(sdf, constr.cols = NULL, constraints, dat)
+}
+\arguments{
+  \item{sdf}{Nonlinear degrees of freedom.  See VGAM
+  documentation for more on what this means.}
+
+  \item{constr.cols}{A vector of column indices.}
+
+  \item{constraints}{A transformed log-linear design
+  matrix.  The submatrix indicated by \code{constr.cols} is
+  the desired argument to the VGAM command to impose the
+  corresponding log-linear model on the data.}
+
+  \item{dat}{A CRC dataset in standard form (i.e., as
+  output of \code{format.data})}
+}
+\value{
+A \code{vgam} model object
+}
+\description{
+A wrapper function to fit a CRC model using the vgam
+command in the VGAM package.
+}
+\details{
+Even as a wrapper function, this still primarily a
+workhorse function for \code{vgam.crc}.
+}
+\author{
+Zach Kurtz
+}
+\references{
+See references for \code{\link{vgam.crc}}.
+}
+

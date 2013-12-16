@@ -1,0 +1,23 @@
+\name{summary.lllcrc}
+\alias{summary.lllcrc}
+\alias{summary.vgam.crc}
+\title{Summary of LLLM or VGAM CRC analysis}
+\usage{
+\method{summary}{lllcrc}(object, ...)
+
+\method{summary}{vgam.crc}(object, ...)
+}
+\arguments{
+  \item{object}{The output of \code{lllcrc}, the LLLM
+  function, or \code{vgam.crc}.}
+
+  \item{\dots}{Optional arguments}
+}
+\description{
+Provides some description of a local log-linear modelling
+object
+}
+\author{
+Zach Kurtz
+}
+

@@ -1,0 +1,46 @@
+\name{ic.fit}
+\alias{ic.fit}
+\title{Select and fit an LLM}
+\usage{
+ic.fit(densi, N, ic, averaging = averaging, normalized = TRUE,
+  rasch = FALSE)
+}
+\arguments{
+  \item{densi}{A matrix with one row and 2^k-1 column
+  containing cell counts or empirical cell probabilities
+  corresponding to all the possible capture patterns.}
+
+  \item{N}{If you multiply \code{densi} by \code{N} and
+  then sum over the resulting vector, you should get the
+  effective sample size.}
+
+  \item{ic}{The information criterion, such as AIC, AICc,
+  BIC, or BICpi.}
+
+  \item{averaging}{Logical: TRUE means that we use
+  information criterion scores to do model averaging.}
+
+  \item{normalized}{Logical: TRUE means that beta0 will be
+  adjusted so that the log-linear model corresponds to cell
+  probabilities instead of expected cell counts.}
+
+  \item{rasch}{Logical: TRUE means that the Rasch model is
+  a candidate.}
+}
+\value{
+\item{pred}{Estimated rate of missingness for the selected
+model} \item{form}{Formula of the selected model}
+}
+\description{
+Use an information criterion to select a local log-linear
+model
+}
+\details{
+Just like \code{flat.IC} except that it is designed to take
+in a local average instead of a full capture-recapture
+dataset
+}
+\author{
+Zach Kurtz
+}
+

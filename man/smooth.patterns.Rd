@@ -1,0 +1,42 @@
+\name{smooth.patterns}
+\alias{smooth.patterns}
+\title{Local averaging for LLLMs}
+\usage{
+smooth.patterns(dat, kfrac, bw)
+}
+\arguments{
+  \item{dat}{The capture-recapture data in the form that is
+  returned by \code{format.data}}
+
+  \item{kfrac}{The approximate fraction of the data that is
+  included in the support of the kernel for the local
+  averages.}
+
+  \item{bw}{A matrix a single column, with rownames that
+  match the covariate names in \code{dat}.  The values in
+  the column are scalars that are used in constructing
+  distances between covariate vectors.  Raw differences are
+  divided by the corresponding scalars before being squared
+  in the context of a Euclidean metric.}
+}
+\value{
+A list containing the original data (\code{dat}), the
+smoothed data (\code{hpi}), and the effective sample sizes
+(\code{ess}) for each local average, or row, in the
+smoothed data
+}
+\description{
+A nearest-neighbors procedure is used in conjunction with
+the Epanechnikov kernel to define a kernel smooth of
+multinomial outcomes across the covariate space
+}
+\details{
+See Kurtz 2013, Chapter on multiple sclerosis
+}
+\author{
+Zach Kurtz
+}
+\references{
+Kurtz 2013
+}
+

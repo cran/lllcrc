@@ -1,0 +1,26 @@
+\name{summarize.by.factors}
+\alias{summarize.by.factors}
+\title{Summarize LLLM by factor}
+\usage{
+summarize.by.factors(dat, vars)
+}
+\arguments{
+  \item{dat}{The \code{dat} object in the output of
+  \code{lllcrc} or \code{vgam.crc}}
+
+  \item{vars}{A vector of variable names, where the names
+  are in the form "x.dis...." as in the output of
+  \code{format.data}}
+}
+\value{
+A data frame
+}
+\description{
+Compute the number of observations and the average
+estimated rate of missingness for each combination of a set
+of categorical covariates
+}
+\author{
+Zach Kurtz
+}
+

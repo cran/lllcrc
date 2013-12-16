@@ -1,0 +1,30 @@
+\name{rates.by.category}
+\alias{rates.by.category}
+\title{Display estimated rates of missingness by category}
+\usage{
+rates.by.category(x, reference.levels = c())
+}
+\arguments{
+  \item{x}{The output of \code{lllcrc} or \code{vgam.crc}}
+
+  \item{reference.levels}{A vector of variable names, where
+  the names are in the form "x.dis...." as in the output of
+  \code{format.data}.  For example, if sex is a variable,
+  two columns \code{x.dis.1.M} and \code{x.dis.1.F} may be
+  included in the table unless one of them is specified as
+  a reference level}
+}
+\value{
+A data frame
+}
+\description{
+A wrapper for \code{summarize.by.factors}.  A table is
+generated to display the estimated average rate of
+missingness for every point in the space of categorical
+covariates.  Reference levels may be selected for each
+category to reduce the size of the table
+}
+\author{
+Zach Kurtz
+}
+

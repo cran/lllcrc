@@ -1,0 +1,33 @@
+\name{llcrc.flat.boots}
+\alias{llcrc.flat.boots}
+\title{Bootstrapping LLMs}
+\usage{
+llcrc.flat.boots(boot.list)
+}
+\arguments{
+  \item{boot.list}{A list of control arguments to direct
+  the bootstrap procedure.  See example.}
+}
+\value{
+A vector of bootstrap estimates.
+}
+\description{
+For a log-linear model, bootstrap estimates of the
+corresponding estimates in a way that incorporates the
+uncertainty due to model selection.
+}
+\details{
+Implements the nonparametric bootstrap of Norris and
+Pollock (1996), `Method 2'.  The results can be used to
+create empirical confidence intervals.
+}
+\author{
+Zach Kurtz
+}
+\references{
+Norris JL and Pollock KH (1996). "Including model
+uncertainty in estimating variances in multiple capture
+studies." \emph{Environmental and Ecological Statistics},
+\bold{3}, pp. 235-244.
+}
+

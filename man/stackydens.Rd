@@ -1,0 +1,18 @@
+\name{stackydens}
+\alias{stackydens}
+\title{Stack local capture pattern frequencies for plotting}
+\usage{
+stackydens(ydens)
+}
+\arguments{
+  \item{ydens}{A matrix or data.frame with as many columns
+  as there are capture patterns.  Each row is the relative
+  frequency (possibly non-integer) of each pattern.}
+}
+\description{
+Used in the plot functions
+}
+\author{
+Zach Kurtz
+}
+

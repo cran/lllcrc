@@ -1,0 +1,22 @@
+\name{y.string.to.y.glm}
+\alias{y.string.to.y.glm}
+\title{Capture patterns to design matrix}
+\usage{
+y.string.to.y.glm(y)
+}
+\arguments{
+  \item{y}{A vector of capture patterns (each capture
+  pattern is a single string of binary digits)}
+}
+\value{
+A design matrix, including capture pattern counts, that is
+ready for log-linear analysis
+}
+\description{
+Tally the multinomial counts for a vector of capture
+patterns, and put the result into design matrix
+}
+\author{
+Zach Kurtz
+}
+

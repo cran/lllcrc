@@ -1,0 +1,39 @@
+\name{extract.CI}
+\alias{extract.CI}
+\title{Use bootstrap output to get CI}
+\usage{
+extract.CI(mod, probs = c(0.025, 0.975), cont.var = "x.con.1",
+  selection = NULL)
+}
+\arguments{
+  \item{mod}{The object that is output by a \code{lllcrc}
+  or \code{vgam.crc}.}
+
+  \item{probs}{A vector c(a,b), with 0<a<b<1, marking the
+  upper and lower probability bounds of the desired
+  confidence interval}
+
+  \item{cont.var}{The name of one continuous covariate to
+  serve as the primary index of the ordered set of
+  confidence intervals (one CI for each covariate vector)}
+
+  \item{selection}{A set of categorical covariate names.
+  CIs will be produced only for covariate vectors that have
+  a one in every position corresponding to the elements of
+  \code{selection}.}
+}
+\value{
+A data frame that includes \code{cont.var}, the
+corresponding point estimate of the rate of missingness
+\code{pi0}, and the lower and upper bounds of the
+associated confidence intervals.
+}
+\description{
+Given bootstrap output of functions such as \code{lllcrc}
+or \code{vgam.crc}, produce confidence intervals
+corresponding to a selection of covariate vectors.
+}
+\author{
+Zach Kurtz
+}
+

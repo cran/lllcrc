@@ -1,0 +1,35 @@
+\name{ic.all}
+\alias{ic.all}
+\title{Compute an IC for several LLMs}
+\usage{
+ic.all(term.sets, ddat, ic, normalized = normalized)
+}
+\arguments{
+  \item{term.sets}{A list of character vectors, with each
+  vector containing column names from the associated
+  log-linear design matrix.}
+
+  \item{ddat}{The log-linear design matrix.}
+
+  \item{ic}{The information criterion, such as AIC, AICc,
+  BIC, or BICpi.}
+
+  \item{normalized}{Logical: TRUE means that beta0 will be
+  adjusted so that the log-linear model corresponds to cell
+  probabilities instead of expected cell counts.}
+}
+\value{
+A matrix with as many rows as there are entries in
+\code{term.sets}. The columns contain the point estimates
+of the population size, the information criterion scores,
+and the information criterion weights for all the models,
+which sum to one
+}
+\description{
+Given several sets of log-linear terms, compute the IC
+corresponding to each model.
+}
+\author{
+Zach Kurtz
+}
+

@@ -1,0 +1,38 @@
+\name{poptop}
+\alias{poptop}
+\title{Simulate a CRC experiment}
+\usage{
+poptop(k = 2, n = 100, heters = NULL, covs = NULL,
+  remove.zeros = TRUE)
+}
+\arguments{
+  \item{k}{The number of lists to be generated}
+
+  \item{n}{The true size of the [fake] population}
+
+  \item{heters}{Optional: a string that is the name of some
+  function for defining a heterogeneity structure, possibly
+  in terms of covariates. Currently the only non-null
+  option implemented is \code{\link{french.1}}, although a
+  user could easily create additional options}
+
+  \item{covs}{Optional: a string that is the name of some
+  function for defining covariates for each population
+  unit.  Currently the only non-null option implemented is
+  \code{age.sex.zip}}
+
+  \item{remove.zeros}{Logical, TRUE by default.  If FALSE,
+  keep the all-zero capture patterns in the dataset to be
+  returned}
+}
+\value{
+A data frame containing fake capture recapture data
+}
+\description{
+Generate fake capture-recapture datasets to be used in
+simulation experiments
+}
+\author{
+Zach Kurtz
+}
+

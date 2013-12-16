@@ -1,0 +1,40 @@
+\name{apply.local.ml}
+\alias{apply.local.ml}
+\title{Fit LLLMs}
+\usage{
+apply.local.ml(dens, ml.meth = NULL, predictors = NULL,
+  design.style = "standard")
+}
+\arguments{
+  \item{dens}{Same as \code{ydens} in apply.ic.fit.}
+
+  \item{ml.meth}{A model specification, in case
+  \code{predictors} is NOT specified.  Options include
+  "indep" and "indep.mono".}
+
+  \item{predictors}{A character vector of predictors of the
+  form "c1", "c2" for main effects, or "c12" for an
+  interaction.}
+
+  \item{design.style}{The kind of model design; Rasch or
+  not Rasch}
+}
+\value{
+A vector of estimated rates of missingness corresponding to
+each point.
+}
+\description{
+Fit a previously selected log-linear model at each
+covariate vector.
+}
+\details{
+This function is closely related to \code{apply.ic.fit},
+with the difference being that the user supplies the
+log-linear model to be applied locally (instead of using an
+information criterion to select a potentially different
+model at each point).
+}
+\author{
+Zach Kurtz
+}
+

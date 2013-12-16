@@ -1,0 +1,53 @@
+\name{pirls}
+\alias{pirls}
+\title{Maximum likelihood for log-linear coefficients}
+\usage{
+pirls(predictors, data, epsilon = 1e-08, iter.max = 25, normalized = TRUE)
+}
+\arguments{
+  \item{predictors}{The columns of the standard design
+  matrix to include in the model.  For example, "c1", "c2"
+  for main effects, and "c12" for interactions.}
+
+  \item{data}{A design matrix with cell counts included in
+  the column named "c".  Must be a matrix (not a data
+  frame)!}
+
+  \item{epsilon}{Convergence tolerance, intended to play
+  the same role as \code{epsilon} the control parameters
+  for \code{glm.fit}.}
+
+  \item{iter.max}{The maximum number of IRLS iterations.  A
+  warning appears if this maximum is ever reached.}
+
+  \item{normalized}{Logical: If TRUE, include a
+  normalization step after coefficient estimation, which
+  resets the value of the intercept so that the sum of
+  predicted values is exactly 1}
+}
+\value{
+The vector of estimated log-linear coefficients.  The first
+coefficient is the intercept, and the remaining ones
+correspond to the \code{predictors} argument, in that order
+}
+\description{
+A simplified version of \code{glm} that does only parameter
+estimation. This attempts to mimic the IRLS routine invoked
+by \code{glm}, without returning extra ``baggage" such as
+standard errors.
+}
+\details{
+The main purpose of \code{pirls} is to obtain speed, for
+the special circumstance in which one must fit gazillions
+of Poisson regression models, where the only quantity of
+interested is the point estimates of the regression
+coefficients.  Matrix inversion is one of the most time
+consuming steps in the function, and the overall speed can
+be improved by about 20 percent by modifying the source
+code to replace the \code{solve()} command with
+\code{.Internal(La_solve())}.
+}
+\author{
+Zach Kurtz
+}
+

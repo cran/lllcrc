@@ -1,0 +1,34 @@
+\name{formatdata}
+\alias{formatdata}
+\title{Format the CRC data}
+\usage{
+formatdata(x, y, cont.vars = NULL, categ.vars = NULL)
+}
+\arguments{
+  \item{x}{The data frame of CRC data, such as the output
+  of the simulation function \code{poptop}.}
+
+  \item{y}{A character string indicating which column of
+  \code{x} contains the capture patterns.}
+
+  \item{cont.vars}{A character vector of variable names for
+  continuous variables.}
+
+  \item{categ.vars}{A character vector of variable names
+  for categorical variables.}
+}
+\value{
+A data frame that is an expanded version of the argument
+\code{x}. Variables are renamed using an "x.con...." or
+"x.dis...." for continuous and discrete variables,
+respectively.  Each discrete/categorical variable with L
+levels is expanded into L separate binary variables.
+}
+\description{
+Put a CRC dataset into a standard form that is understood
+by functions like \code{lllcrc}.
+}
+\author{
+Zach Kurtz
+}
+

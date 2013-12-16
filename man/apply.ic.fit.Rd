@@ -1,0 +1,52 @@
+\name{apply.ic.fit}
+\alias{apply.ic.fit}
+\title{Select an LLLM at each point}
+\usage{
+apply.ic.fit(ydens, ess, mct, ic, cell.adj, averaging, loud = TRUE)
+}
+\arguments{
+  \item{ydens}{A matrix with 2^k-1 columns, one for each
+  capture pattern. Each row sums to 1; these are empirical
+  capture pattern probabilities.}
+
+  \item{ess}{A vector of effective sample sizes, one for
+  each row of ydens.}
+
+  \item{mct}{The number of population units that were
+  observed for each row of ydens.}
+
+  \item{ic}{The chosen information criterion.  Currently
+  implemented: "AIC", "AICc", "BIC", "BICpi".}
+
+  \item{cell.adj}{Logical: TRUE means that the cell
+  adjustment of Evans and Bonet (1995) is applied.}
+
+  \item{averaging}{Logical: TRUE means that the information
+  criterion weights are used to do model averaging,
+  locally.}
+
+  \item{loud}{Logical: TRUE means that the progress is
+  noted by printing the number of the row of ydens
+  currently being processed.}
+}
+\value{
+\item{lll}{An object of class "lllcrc"}
+}
+\description{
+Select LLLMs for each row of the input data.
+}
+\details{
+See Kurtz (2013).  Each row of \code{ydens} corresponds to
+a covariate vector, and contains a local average of
+multinomial capture pattern outcomes across nearby points.
+\code{apply.ic.fit} applies the function \code{ic.fit} at
+each row.  The vector of local effective sample sizes is
+crucial, and is specified in the \code{ess} argument.
+}
+\author{
+Zach Kurtz
+}
+\references{
+Kurtz (2013)
+}
+
