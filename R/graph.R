@@ -54,7 +54,7 @@ stackydens = function(ydens){
 #' @author Zach Kurtz
 #' @rdname plot
 #' @method plot lllcrc
-#' @S3method plot lllcrc
+#' @export
 plot.lllcrc = function(x, cont.var = "x.con.1", 
 		selection = NULL,
                 main = "Set the main argument for the title",
@@ -130,7 +130,7 @@ plot.lllcrc = function(x, cont.var = "x.con.1",
 
 #' @rdname plot
 #' @method plot vgam.crc
-#' @S3method plot vgam.crc
+#' @export
 plot.vgam.crc = function(x, cont.var = "x.con.1", 
 		selection = NULL,
                 main = "Set the main argument for the title",

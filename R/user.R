@@ -176,7 +176,7 @@ lllcrc = function(dat, kfrac, models = NULL, ic = "BICpi", bw = NULL,
 #' @author Zach Kurtz
 #' @rdname summary
 #' @method summary lllcrc
-#' @S3method summary lllcrc
+#' @export
 summary.lllcrc = function(object, ...){
 	cat(paste("Point estimate of number missing:", signif(object$est,4), "\n"))
 	cat(paste("\nFrequency table of the selected models (only one if a VGAM):"))
@@ -194,7 +194,7 @@ summary.lllcrc = function(object, ...){
 
 #' @rdname summary
 #' @method summary vgam.crc
-#' @S3method summary vgam.crc
+#' @export
 summary.vgam.crc = function(object, ...){
 	cat(paste("Point estimate of number missing:", signif(object$est,4), "\n"))
 	cat(paste("\nFrequency table of the selected models (only one if a VGAM):"))

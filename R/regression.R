@@ -60,7 +60,7 @@ smooth.patterns = function(dat, kfrac, bw)
 		ecdf = cumsum(edf[,"mct"])/nc #plot(1:nd, ecdf)
 		dtt = data.table(ecdf, val = ecdf)
 		setattr(dtt, "sorted", "ecdf") 
-		edf.ind = dtt[J(kfrac), .I, roll = "nearest"]$.I[1]
+		edf.ind = dtt[J(kfrac), .I, roll = "nearest"][1]
 		# (edf.ind is the highest index of a micro-postratum that lies within the kernel support)
 		# Define weights only for points in the support (sup) of the kernel
 		sup = edf[1:edf.ind,,drop = FALSE]

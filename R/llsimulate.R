@@ -175,7 +175,7 @@ zero.inflate = function(u.vec, p0, k, des)
 #' @param ...  Additional parameters to be passed into \code{plot}
 #' @author Zach Kurtz
 #' @method plot llsim
-#' @S3method plot llsim
+#' @export
 plot.llsim = function(x, y.top = 2, probs = c(0.25, 0.75), main = NULL, ...)
 {
 	if(is.null(main)) main = paste(nrow(x$res), "replications")
